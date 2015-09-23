@@ -2,7 +2,75 @@
 
 >对于android-percent-support的扩展库。
 
-## 一 为什么要扩展这个库
+目前支持：
+
+1. 不改变原有库的用法
+2. 添加了`PercentLinearLayout `
+3. 支持宽度高度百分比设置值
+4. 支持margin百分比设置值
+5. 支持padding百分比设置值
+6. 支持minWidth , maxWidth , minHeight , maxHeight百分比设置值
+4. 支持TextView、Button、EditText的textSize
+5. 支持ScrollView内部为Linearlayout
+
+目前最新版本为，尽可能使用最新版本，源码和demo在github中： 
+
+```xml
+compile 'com.zhy:percent-support-extends:1.0.6'
+```
+
+## 一 扩展的功能
+
+
+对于官方库，做了如下的改变：
+
+1. 不改变原有库的用法
+2. 添加了`PercentLinearLayout `
+3. 支持百分比指定特定的参考值，比如宽度或者高度。
+	
+	例如：
+	
+	```xml
+	app:layout_heightPercent="50%w"
+	app:layout_marginPercent="15%w"
+	app:layout_marginBottomPercent="20%h"
+	```
+4. 支持通过app:layout_textSizePercent设置textView（button,editText）的textSize
+	
+	例如：
+	
+	```xml
+	 <TextView
+          app:layout_textSizePercent="3%h"
+     />
+	```
+
+5. 对于外层套ScrollView的问题，目前可以在`PercentLinearLayout `的外层使用ScrollView，不过对于宽度的百分比参考的就是android.R.id.content的高度(因为，无法参考父控件的高度，父控件的高度理论上依赖于子View高度，且模式为UNSPECIFIED)。
+6. 支持minWidth,maxWidth,minHeight,maxHeight的支持。
+
+	例如：
+	
+	```xml
+	app:layout_maxWidthPercent
+	app:layout_maxHeightPercent
+	app:layout_minWidthPercent
+	app:layout_minWidthPercent
+	```
+	（注：用法和maxHeight等一致，如果使用：值会覆盖原本的maxHeight等属性）。
+7. 支持padding百分比设置值	
+	
+	例如：
+	
+	```xml
+	app:layout_paddingBottomPercent="8%w"
+    app:layout_paddingLeftPercent="2%w"
+    app:layout_paddingRightPercent="4%w"
+    app:layout_paddingTopPercent="6%w"
+	```
+
+	
+
+## 二 为什么要扩展这个库
 
 首先我们回顾下百分比布局库的用法，提供了`PercentRelativeLayout`、`PercentFrameLayout`供大家在编写的时候，对于以下属性：
 
@@ -29,27 +97,18 @@
 
 
 
-## 二 扩展的功能
 
-对于官方库，做了如下的改变：
-
-1. 不改变原有库的用法
-2. 添加了`PercentLinearLayout `
-3. 支持百分比指定特定的参考值，比如宽度或者高度。
-	
-	例如：`app:layout_heightPercent="50%w"`, `app:layout_marginPercent="15%w"`,
-	`app:layout_marginBottomPercent="20%h"`.
-4. 支持通过app:layout_textSizePercent设置textView的textSize
-5. 对于外层套ScrollView的问题，目前可以在`PercentLinearLayout `的外层使用ScrollView，不过对于宽度的百分比参考的就是android.R.id.content的高度(因为，无法参考父控件的高度，父控件的高度理论上依赖于子View高度，且模式为UNSPECIFIED)。
 	
 ## 三 用法
 	
+### Android Studio
+
 对于如何导入，也是相当的简单，android studio的用户，直接：
 
 ```xml
 dependencies {
     //...
-    compile 'com.zhy:percent-support-extends:1.0.1'
+    compile 'com.zhy:percent-support-extends:1.0.6'
 }
 
 ```
@@ -75,10 +134,23 @@ com.zhy.android.percent.support.PercentFrameLayout
 - layout_marginStartPercent
 - layout_marginTopPercent
 - layout_textSizePercent
+- layout_maxWidthPercent
+- layout_maxHeightPercent
+- layout_minWidthPercent
+- layout_minHeightPercent
+- layout_paddingPercent
+- layout_paddingTopPercent
+- layout_paddingBottomPercent
+- layout_paddingLeftPercent
+- layout_paddingRightPercent
 
 对于值可以取：10%w , 10%h , 10% 
 
-对于eclipse的用户：github上自行下载源码，就几个类和一个attrs.xml，也可以在[bintray.com/percent-support-extends ](https://bintray.com/hongyangandroid/maven/android-screen-support-ext/view#files)下载相关文件。
+### Eclispe 
+
+对于eclipse的用户：下载完项目后，导入[eclipse\_demo\_and\_sources](eclipse_demo_and_sources)中的`android-percent-support-extend-sample`，将`android-percent-support-extend-lib`以library方式引入。
+
+注意:eclipse的版本并非最新版本。
 
 
 
@@ -87,6 +159,8 @@ com.zhy.android.percent.support.PercentFrameLayout
 #### Demo 1
 
 <img src="sc_02.png" width="320px"/>
+
+<img src="sc_02_full.png"/>
 
 xml:
 
@@ -151,54 +225,45 @@ xml:
 
 <img src="sc_03.png" width="320px"/>
 
+<img src="sc_03_full.png"/>
+
 xml:
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.android.percent.support.PercentRelativeLayout
+<com.zhy.android.percent.support.PercentFrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:clickable="true">
+    android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/row_one_item_one"
+        android:id="@+id/id_test"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_alignParentTop="true"
-        android:background="#7700ff00"
-        android:text="w:70%,h:20%"
+        android:layout_gravity="left|top"
+        android:background="#44ff0000"
         android:gravity="center"
+        android:onClick="test1"
+        android:text="width:30%,height:20%"
+        app:layout_heightPercent="20%"
+        app:layout_widthPercent="30%"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_gravity="right|top"
+        android:background="#4400ff00"
+        android:gravity="center"
+        android:text="width:70%,height:20%"
         app:layout_heightPercent="20%"
         app:layout_widthPercent="70%"/>
 
-    <TextView
-        android:id="@+id/row_one_item_two"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_toRightOf="@+id/row_one_item_one"
-        android:background="#396190"
-        android:text="w:30%,h:20%"
-        app:layout_heightPercent="20%"
-        android:gravity="center"
-        app:layout_widthPercent="30%"/>
-
-
-    <ImageView
-        android:id="@+id/row_two_item_one"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:src="@drawable/tangyan"
-        android:scaleType="centerCrop"
-        android:layout_below="@+id/row_one_item_one"
-        android:background="#d89695"
-        app:layout_heightPercent="70%"/>
 
     <TextView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_below="@id/row_two_item_one"
+        android:layout_gravity="bottom"
         android:background="#770000ff"
         android:gravity="center"
         android:text="width:100%,height:10%"
@@ -206,7 +271,30 @@ xml:
         app:layout_widthPercent="100%"/>
 
 
-</com.zhy.android.percent.support.PercentRelativeLayout>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:scaleType="centerCrop"
+        android:src="@drawable/tangyan"
+        app:layout_heightPercent="50%h"
+        app:layout_widthPercent="50%w"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_heightPercent="10%h"
+        app:layout_widthPercent="10%h"
+        android:text="10%h,10%h"
+        android:gravity="center"
+        android:layout_gravity="bottom|right"
+        android:background="#44ff0000"
+        app:layout_marginBottomPercent="20%h"
+        app:layout_marginRightPercent="10%"/>
+
+
+</com.zhy.android.percent.support.PercentFrameLayout>
+
 
 
 ```
@@ -319,6 +407,7 @@ xml:
 
 * [博客](http://blog.csdn.net/lmj623565791)
 * [新浪微博](http://weibo.com/u/3165018720)
+*  email: 623565791@qq.com
 * >微信公众号：hongyangAndroid
 （欢迎关注，第一时间推送博文信息）
 <img  src="http://img.my.csdn.net/uploads/201501/30/1422600516_2905.jpg" width="200px"/>
